@@ -1,13 +1,22 @@
-'use server'
+"use server";
 
-import { registerPayment } from '@/src/services/payment.service'
+import { prisma } from "@/lib/prisma";
 
 export async function registerPaymentAction(
   enrollmentId: string,
-  amount: number
+  amount: number,
+  userId: string,
+  note?: string
 ) {
-  // por ahora hardcodeado, luego vendrá del User admin
-  const receivedById = 'admin'
+  if (!enrollmentId || amount <= 0) return;
 
-  return registerPayment(enrollmentId, amount, receivedById)
+  await prisma.payment.create({
+    data: {
+      enrollmentId,
+      amount,
+      paymentDate: new Date(),
+      note,
+      receivedById: userId,
+    },
+  });
 }
