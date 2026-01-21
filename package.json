@@ -2,16 +2,17 @@
   "name": "storms-payment-app",
   "version": "0.1.0",
   "private": true,
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "next lint .",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"No tests yet\"",
+    "prisma:seed": "node prisma/seed.js"
   },
-  "prisma": {
-    "seed": "node prisma/seed.js"
-  },
+
   "dependencies": {
     "@prisma/client": "^6.19.2",
     "next": "16.1.4",
@@ -19,6 +20,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
+
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
