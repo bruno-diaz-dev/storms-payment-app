@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { prisma } from '@/src/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { Player, Tournament } from '@prisma/client'
