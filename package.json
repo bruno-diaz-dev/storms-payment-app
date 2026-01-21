@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test": "echo \"No tests yet\"",
+    "postinstall": "prisma generate",
     "prisma:seed": "node prisma/seed.js"
   },
 
