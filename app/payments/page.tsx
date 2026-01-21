@@ -55,14 +55,14 @@ export default async function PagosPage() {
 
             <div className="flex gap-4 pt-2">
               <a
-                href="/jugadores"
+                href="/players"
                 className="bg-purple-700 text-white px-4 py-2 rounded-md hover:bg-purple-800 transition"
               >
                 Registrar jugadores
               </a>
 
               <a
-                href="/torneos"
+                href="/tournaments"
                 className="border border-purple-700 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-50 transition"
               >
                 Ver torneos
