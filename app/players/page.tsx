@@ -15,9 +15,9 @@ export default async function PlayersPage() {
           <p>No hay jugadores registrados.</p>
         ) : (
           <ul>
-            {players.map((player: Player) => (
+            {players.map((player) => (
               <li key={player.id}>
-                {player.firstName} {player.lastName}
+                {player.fullName}
               </li>
             ))}
           </ul>

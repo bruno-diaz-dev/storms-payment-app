@@ -8,7 +8,7 @@ type EnrollmentWithRelations = Enrollment & {
   payments: Payment[]
 }
 
-async function registerPayment(formData: FormData) {
+async function registerPaymentAction(formData: FormData) {
   'use server'
 
   const enrollmentId = formData.get('enrollmentId') as string
@@ -20,6 +20,8 @@ async function registerPayment(formData: FormData) {
     data: {
       enrollmentId,
       amount,
+      paymentDate: new Date(),
+      receivedById: 'admin', // placeholder válido
     },
   })
 
@@ -34,9 +36,7 @@ export default async function PaymentsPage() {
         tournament: true,
         payments: true,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { createdAt: 'desc' },
     })
 
   return (
@@ -47,7 +47,7 @@ export default async function PaymentsPage() {
         {enrollments.length === 0 ? (
           <p>No hay inscripciones registradas.</p>
         ) : (
-          <table className="table">
+          <table>
             <thead>
               <tr>
                 <th>Jugador</th>
@@ -60,22 +60,19 @@ export default async function PaymentsPage() {
             <tbody>
               {enrollments.map((enrollment) => {
                 const totalPaid = enrollment.payments.reduce(
-                  (sum: number, payment: Payment) =>
-                    sum + payment.amount,
+                  (sum: number, p: Payment) =>
+                    sum + p.amount,
                   0
                 )
 
                 return (
                   <tr key={enrollment.id}>
-                    <td>
-                      {enrollment.player.firstName}{' '}
-                      {enrollment.player.lastName}
-                    </td>
+                    <td>{enrollment.player.fullName}</td>
                     <td>{enrollment.tournament.name}</td>
-                    <td>${enrollment.tournament.fee}</td>
+                    <td>${enrollment.tournament.totalFee}</td>
                     <td>${totalPaid}</td>
                     <td>
-                      <form action={registerPayment}>
+                      <form action={registerPaymentAction}>
                         <input
                           type="hidden"
                           name="enrollmentId"
