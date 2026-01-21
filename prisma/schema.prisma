@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum Role {
+  ADMIN
+  REPRESENTATIVE
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  role      Role
+  createdAt DateTime @default(now())
+
+  payments  Payment[] @relation("ReceivedPayments")
+}
+
+model Player {
+  id        String   @id @default(uuid())
+  fullName  String
+  phone     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  enrollments Enrollment[]
+}
+
+model Tournament {
+  id        String   @id @default(uuid())
+  name      String
+  league    String
+  season    String
+  totalFee  Int
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id               String   @id @default(uuid())
+  playerId         String
+  tournamentId     String
+  totalFeeOverride Int?
+  createdAt        DateTime @default(now())
+
+  player     Player     @relation(fields: [playerId], references: [id])
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  payments   Payment[]
+
+  @@unique([playerId, tournamentId])
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  enrollmentId  String
+  amount        Int
+  paymentDate   DateTime
+  note          String?
+  createdAt     DateTime @default(now())
+
+  receivedById  String
+  receivedBy    User       @relation("ReceivedPayments", fields: [receivedById], references: [id])
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String
+  entityType  String
+  entityId    String
+  performedBy String
+  timestamp   DateTime @default(now())
+}

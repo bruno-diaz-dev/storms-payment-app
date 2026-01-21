@@ -1,26 +1,90 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: #7e2ad1;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.header {
+  height: 64px;
+  background: #6420aa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 42px;
+  opacity: 0.25; /* 👈 visible pero elegante */
+}
+
+.logo-text {
+  color: white;
+  font-weight: bold;
+}
+
+/* HAMBURGUESA */
+#menu-toggle {
+  display: none;
+}
+
+.hamburger {
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  top: 64px;
+  right: 0;
+  background: #6420aa;
+  display: none;
+  flex-direction: column;
+  width: 180px;
+}
+
+.menu a {
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background: #7e2ad1;
+}
+
+#menu-toggle:checked + .hamburger + .menu {
+  display: flex;
+}
+
+/* MAIN */
+.main {
+  padding-top: 96px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
