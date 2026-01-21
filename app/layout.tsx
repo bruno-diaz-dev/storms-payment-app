@@ -10,14 +10,15 @@ export default function RootLayout({
     <html lang="es">
       <body>
         <header className="header">
-          <div className="header-left">
+          {/* LOGO → HOME */}
+          <Link href="/" className="header-left" aria-label="Volver al inicio">
             <img
               src="/storms-logo.png"
               alt="Storms"
               className="logo"
             />
             <span className="logo-text">Storms · Admin</span>
-          </div>
+          </Link>
 
           <input type="checkbox" id="menu-toggle" />
           <label htmlFor="menu-toggle" className="hamburger">
