@@ -1,22 +1,22 @@
-"use server";
+'use server'
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma'
 
 export async function registerPaymentAction(
   enrollmentId: string,
   amount: number,
-  userId: string,
-  note?: string
+  receivedById: string
 ) {
-  if (!enrollmentId || amount <= 0) return;
+  if (!enrollmentId || amount <= 0) {
+    throw new Error('Invalid payment data')
+  }
 
   await prisma.payment.create({
     data: {
       enrollmentId,
       amount,
       paymentDate: new Date(),
-      note,
-      receivedById: userId,
+      receivedById,
     },
-  });
+  })
 }

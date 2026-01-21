@@ -1,53 +1,48 @@
 import { prisma } from '@/lib/prisma'
 
-export const dynamic = 'force-dynamic'
+type PaymentRow = {
+  id: string
+  amount: number
+  paymentDate: Date
+  enrollment: {
+    player: {
+      fullName: string
+    }
+  }
+}
 
 export default async function PaymentsPage() {
-  const enrollments = await prisma.enrollment.findMany({
+  const payments: PaymentRow[] = await prisma.payment.findMany({
     include: {
-      player: true,
-      tournament: true,
-      payments: true,
+      enrollment: {
+        include: {
+          player: true,
+        },
+      },
+    },
+    orderBy: {
+      paymentDate: 'desc',
     },
   })
 
-  const data = enrollments.map(e => {
-    const totalFee = e.totalFeeOverride ?? e.tournament.totalFee
-    const paid = e.payments.reduce((s, p) => s + p.amount, 0)
-    const remaining = totalFee - paid
-
-    return {
-      id: e.id,
-      player: e.player.fullName,
-      tournament: e.tournament.name,
-      totalFee,
-      paid,
-      remaining,
-    }
-  })
-
   return (
-    <div style={{ padding: 24 }}>
-      <h1>Payments</h1>
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Payments</h1>
 
-      <table border={1} cellPadding={8}>
+      <table className="w-full border">
         <thead>
           <tr>
             <th>Player</th>
-            <th>Tournament</th>
-            <th>Total</th>
-            <th>Paid</th>
-            <th>Remaining</th>
+            <th>Amount</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(row => (
+          {payments.map((row: PaymentRow) => (
             <tr key={row.id}>
-              <td>{row.player}</td>
-              <td>{row.tournament}</td>
-              <td>${row.totalFee}</td>
-              <td>${row.paid}</td>
-              <td>${row.remaining}</td>
+              <td>{row.enrollment.player.fullName}</td>
+              <td>${row.amount}</td>
+              <td>{row.paymentDate.toLocaleDateString()}</td>
             </tr>
           ))}
         </tbody>
