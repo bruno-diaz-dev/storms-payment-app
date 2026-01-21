@@ -38,7 +38,7 @@ export default async function PaymentsPage() {
           </tr>
         </thead>
         <tbody>
-          {payments.map((row: PaymentRow) => (
+          {payments.map((row) => (
             <tr key={row.id}>
               <td>{row.enrollment.player.fullName}</td>
               <td>${row.amount}</td>
