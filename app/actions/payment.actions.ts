@@ -1,12 +1,13 @@
-"use server";
+'use server'
 
-import { registerPayment } from "@/src/services/payment.service";
+import { registerPayment } from '@/src/services/payment.service'
 
-export async function registerPaymentAction(data: {
-  enrollmentId: string;
-  amount: number;
-  receivedById: string;
-  note?: string;
-}) {
-  return registerPayment(data);
+export async function registerPaymentAction(
+  enrollmentId: string,
+  amount: number
+) {
+  // por ahora hardcodeado, luego vendrá del User admin
+  const receivedById = 'admin'
+
+  return registerPayment(enrollmentId, amount, receivedById)
 }

@@ -1,20 +1,19 @@
-"use server";
+'use server'
 
 import {
   enrollPlayer,
   listTournamentEnrollments,
-} from "@/src/services/enrollment.service";
+} from '@/src/services/enrollment.service'
 
-export async function enrollPlayerAction(data: {
-  playerId: string;
-  tournamentId: string;
-  totalFeeOverride?: number;
-}) {
-  return enrollPlayer(data);
-}
-
-export async function listEnrollmentsByTournamentAction(
+export async function enrollPlayerAction(
+  playerId: string,
   tournamentId: string
 ) {
-  return listTournamentEnrollments(tournamentId);
+  return enrollPlayer(playerId, tournamentId)
+}
+
+export async function listTournamentEnrollmentsAction(
+  tournamentId: string
+) {
+  return listTournamentEnrollments(tournamentId)
 }
