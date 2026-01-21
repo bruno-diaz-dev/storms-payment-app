@@ -58,14 +58,23 @@ model Enrollment {
 }
 
 model Payment {
-  id           String   @id @default(uuid())
-  enrollmentId String
-  amount       Int
-  paymentDate  DateTime
-  note         String?
-  createdAt    DateTime @default(now())
+  id            String   @id @default(uuid())
+  enrollmentId  String
+  amount        Int
+  paymentDate   DateTime
+  note          String?
+  createdAt     DateTime @default(now())
 
-  receivedById String
-  receivedBy   User       @relation("ReceivedPayments", fields: [receivedById], references: [id])
-  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+  receivedById  String
+  receivedBy    User       @relation("ReceivedPayments", fields: [receivedById], references: [id])
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String
+  entityType  String
+  entityId    String
+  performedBy String
+  timestamp   DateTime @default(now())
 }
