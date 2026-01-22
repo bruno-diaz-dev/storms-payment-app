@@ -1,18 +1,13 @@
 'use server'
-import { revalidatePath } from 'next/cache'
-
 
 import { prisma } from '@/lib/prisma'
+import { revalidatePath } from 'next/cache'
 
 export async function registerPaymentAction(
   enrollmentId: string,
   amount: number,
   receivedById: string
 ) {
-  if (!enrollmentId || amount <= 0) {
-    throw new Error('Invalid payment data')
-  }
-
   await prisma.payment.create({
     data: {
       enrollmentId,
@@ -21,8 +16,6 @@ export async function registerPaymentAction(
       receivedById,
     },
   })
+
   revalidatePath('/payments')
-
 }
-
-
